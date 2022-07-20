@@ -1,26 +1,9 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import action
-from rest_framework import viewsets
 
 from core.models import Clientes, Produtos, Pedidos
 from core.Serializers import ClientesSerializer, ProdutosSerializer, PedidosSerializer, ListaPedidosSerializer
-
-# class ClientesViewSet(viewsets.ModelViewSet):
-#     queryset = Clientes.objects.all()
-#     serializer_class = ClientesSerializer
-
-# class ProdutosViewSet(viewsets.ModelViewSet):
-#     queryset = Produtos.objects.all()
-#     serializer_class = ProdutosSerializer
-
-# class PedidosViewSet(viewsets.ModelViewSet):
-#     queryset = Pedidos.objects.all()
-#     serializer_class = PedidosSerializer
-
-
-
 
 #View para vizualizar e criar clientes
 class ClientsCreatView(APIView):
@@ -171,7 +154,32 @@ class ListaPedidos(APIView):
         serializer = ListaPedidosSerializer(produtos, many=True)
         return Response(serializer.data)
 
+
+#View para Visualizar a fatura
 class Fatura(APIView):
+
+    def get_pedidos(self):
+        try:
+            pedidos = Pedidos.objects.all()
+            return pedidos
+        except Pedidos.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, resquest):
+        pedidos = self.get_pedidos()
+        #import pdb; pdb.set_trace()
+
+        fatura = 0
+        despesa = 0
+        for pedido in pedidos:
+            fatura += pedido.total
+            despesa += pedido.produto.get().custo
+    
+        return Response({"Fatura": fatura, "despesa":despesa})
+
+
+#View para Visualizar o lucro
+class Lucro(APIView):
 
     def get_pedidos(self):
         try:
@@ -184,9 +192,10 @@ class Fatura(APIView):
         pedidos = self.get_pedidos()
 
         fatura = 0
+        despesa = 0
         for pedido in pedidos:
             fatura += pedido.total
+            despesa += pedido.produto.get().custo
 
-        #import pdb; pdb.set_trace()
-    
-        return Response({"Fatura": fatura})
+        lucro = fatura-despesa
+        return Response({"Lucro": lucro})

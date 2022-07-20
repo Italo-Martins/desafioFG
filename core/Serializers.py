@@ -28,7 +28,3 @@ class ListaPedidosSerializer(serializers.ModelSerializer):
         model = Pedidos
         fields = ['quantidade', 'total', 'produto']
 
-
-
-class FaturaSerializer(serializers.Serializer):
-    Fatura = serializers.IntegerField(read_only=True)
