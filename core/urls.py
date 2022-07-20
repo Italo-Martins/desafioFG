@@ -3,6 +3,7 @@ from django.urls import path
 
 from core.views import ClientsCreatView, ClientEdit, ProdutosCreatView, ProdutoEdit, PedidosCreatView, PedidoEdit,ListaPedidos,Fatura, Lucro
 
+#Rotas da aplicação
 urlpatterns = [
     path('clientes/', ClientsCreatView.as_view()),
     path('clientes/<int:pk>/', ClientEdit.as_view()),
