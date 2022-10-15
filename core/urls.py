@@ -1,17 +1,17 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
+from core.views import ClientsViewSet, ProdutosViewSet, PedidosViewSet,PedidoClienteView, FaturamentoView, LucroView
 
-from core.views import ClientsCreatView, ClientEdit, ProdutosCreatView, ProdutoEdit, PedidosCreatView, PedidoEdit,ListaPedidos,Fatura, Lucro
+routers = DefaultRouter()
+routers.register(r'clientes', ClientsViewSet)
+routers.register(r'produtos', ProdutosViewSet)
+routers.register(r'pedidos', PedidosViewSet)
 
 #Rotas da aplicação
 urlpatterns = [
-    path('clientes/', ClientsCreatView.as_view()),
-    path('clientes/<int:pk>/', ClientEdit.as_view()),
-    path('produtos/', ProdutosCreatView.as_view()),
-    path('produtos/<int:pk>/', ProdutoEdit.as_view()),
-    path('pedidos/', PedidosCreatView.as_view()),
-    path('pedidos/<int:pk>/', PedidoEdit.as_view()),
-    path('listapedidos/<int:pk>/', ListaPedidos.as_view()),
-    path('fatura/', Fatura.as_view()),
-    path('lucro/', Lucro.as_view()),
+    path('pedidocliente/', PedidoClienteView.as_view()),
+    path('faturamento/', FaturamentoView.as_view()),
+    path('lucro/', LucroView.as_view()),
+    path('', include(routers.urls))
 ]
