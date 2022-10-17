@@ -41,15 +41,16 @@
 ### Para cadastrar um pedido:
 ```
 {
-    "quantidade": 10,
-    "total": "145.80",
-    "cliente": [
-        1
+    "client": "Nome",
+    "order": [
+        {
+            "product": id,
+            "quantity": 2,
+            "total": decimal
+        }
     ],
-    "produto": [
-        1
-    ]
-}
+    "total": decimal
+    
 ```
 obs.: produto e clientes referisse ao id deles.
 
@@ -59,8 +60,8 @@ obs.: produto e clientes referisse ao id deles.
 - pedidos/<int:pk>/
 
 ### Para verificar os produtos adquiridos por algum cliente baste acessar o endpoint informando o id do cliente na URL:
-- listapedidos/<int:pk>/
+- pedidocliente/<int:pk>/
 
 ### Para verificar a fatura e o lucros do sistema basta acessar os seguintes endpoints respectivamente:
-- fatura/
+- faturamento/
 - lucro/
